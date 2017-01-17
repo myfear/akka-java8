@@ -18,6 +18,7 @@ import akka.japi.pf.DeciderBuilder;
 import akka.japi.pf.ReceiveBuilder;
 import scala.concurrent.duration.Duration;
 import static akka.actor.SupervisorStrategy.*;
+import java.util.concurrent.TimeUnit;
 
 public class Supervisor extends AbstractLoggingActor {
 
@@ -43,7 +44,7 @@ public class Supervisor extends AbstractLoggingActor {
     public SupervisorStrategy supervisorStrategy() {
         return new OneForOneStrategy(
                 10,
-                Duration.create("10 seconds"),
+                Duration.create(10, TimeUnit.SECONDS),
                 DeciderBuilder
                         .match(RuntimeException.class, ex -> escalate())
                         .build()
